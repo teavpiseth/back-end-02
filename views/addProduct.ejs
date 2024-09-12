@@ -1,0 +1,17 @@
+<%- include('partial/header.ejs') %>
+<%- include('partial/menu.ejs') %>
+    
+    <form action="/admin/product" method="POST">
+      <label>Product Name</label>
+      <input class="input-product" type="text" name="Title" />
+      <br />
+      <label>Product Description</label>
+      <input class="input-product" type="text" name="Description" />
+      <br />
+      <label>Product Image</label>
+      <input class="input-product" type="text" name="Image" />
+      <br />
+      <button type="submit">Add Product</button>
+    </form>
+<%- include('partial/footer.ejs') %>
+

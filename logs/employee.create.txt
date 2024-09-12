@@ -1,0 +1,10 @@
+hierror: Error: Table 'full_stack01.employeesa' doesn't existerror: Error: Table 'full_stack01.employeesa' doesn't exist
+
+error: Error: Table 'full_stack01.employeesa' doesn't exist
+
+10-09-2024 22:39:02 error: Error: Table 'full_stack01.employeesa' doesn't exist
+
+11-09-2024 21:15:30 error: Error: Table 'full_stack01.employeesa' doesn't exist
+
+12-09-2024 22:42:25 error: Error: Column 'Image' cannot be null
+

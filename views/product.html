@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>page product</title>
+    <style>
+      .card-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .card {
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        width: 300px;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card-image {
+        height: 200px;
+        object-fit: cover;
+      }
+
+      .card-content {
+        padding: 20px;
+      }
+
+      .card-title {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+
+      .card-text {
+        color: #666;
+        font-size: 16px;
+      }
+
+      .card-button {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        cursor: pointer;
+        padding: 10px 20px;
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+      }
+
+      .card-button:hover {
+        background-color: #0056b2;
+      }
+    </style>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+      .navigation {
+        background-color: #2177b1;
+        padding: 15px 0;
+        margin-bottom: 20px;
+      }
+
+      .navigation ul {
+        display: flex;
+        list-style-type: none;
+      }
+
+      .navigation li {
+        margin-right: 20px;
+      }
+
+      .navigation a {
+        color: white;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .navigation a:hover,
+      .navigation a.active {
+        color: #101c6d;
+      }
+
+      @media (max-width: 768px) {
+        .navigation ul {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .navigation li {
+          margin-bottom: 10px;
+        }
+
+        .navigation a.active {
+          display: none;
+        }
+      }
+
+      @media (min-width: 769px) {
+        .navigation a.active {
+          display: block;
+        }
+      }
+      .input-product {
+        padding: 10px;
+      }
+      form {
+        margin: auto;
+        text-align: center;
+      }
+      form button {
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navigation">
+      <ul>
+        <li><a href="/admin/add-product" class="active">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </nav>
+    <h2 style="background: #ccc; padding: 5px">Product List</h2>
+
+    <div class="card-container">
+      <div class="card">
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbJr9k6fMMk0K-05Uw7_kzLIwUz51yYzJ1QA&s"
+          alt="Card Image"
+          class="card-image"
+        />
+        <div class="card-content">
+          <h2 class="card-title">Card Title</h2>
+          <p class="card-text">This is a sample text for the card content.</p>
+          <button class="card-button">Learn More</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
