@@ -23,7 +23,7 @@ const update = async (req, res) => {
       "UPDATE employee SET FirstName = :firstName, LastName = :lastName, Image= :image, Gender = :gender, Dob = :dob, Tel = :tel, Address = :address, Status = :status WHERE id = :id";
     const [result] = await db.query(sql1, {
       ...req.body,
-      image: req.body.firstName,
+      image: req?.file?.filename || req.body?.image,
     });
 
     return result;
@@ -47,7 +47,7 @@ const remove = async (req, res) => {
 const getList = async () => {
   try {
     const [result] = await db.query("SELECT * FROM employee order by id desc");
-    console.log(result);
+
     return result;
   } catch (error) {
     console.log(error);

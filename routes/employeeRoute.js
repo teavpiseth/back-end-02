@@ -9,7 +9,7 @@ router.get(
   employeeCtr.getList
 );
 router.post("/api/employee/create", upload.single("image"), employeeCtr.create);
-router.put("/api/employee/update", employeeCtr.update);
+router.put("/api/employee/update", upload.single("image"), employeeCtr.update);
 router.delete("/api/employee/delete", employeeCtr.remove);
 
 module.exports = router;

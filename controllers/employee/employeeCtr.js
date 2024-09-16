@@ -1,6 +1,7 @@
 const db = require("../../database/db");
 const employeeModel = require("../../models/employee/employeeModel");
 const employeeValidate = require("./employeeValidate");
+const fs = require("fs").promises;
 
 const create = async (req, res) => {
   try {
@@ -26,12 +27,17 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const validate = employeeValidate.update(req.body);
+    const body = { ...req.body, image: req.file?.filename };
+    const validate = employeeValidate.update(body);
     if (validate.result === false) {
       res.status(400).json({
         data: validate.errors,
         message: "fail",
       });
+    }
+    const filename = req?.file?.filename;
+    if (filename && req.body?.imageOld) {
+      await fs.unlink("uploads" + "/" + `${req.body.imageOld}`);
     }
     const result = await employeeModel.update(req, res);
 
