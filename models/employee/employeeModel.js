@@ -23,7 +23,7 @@ const update = async (req, res) => {
       "UPDATE employee SET FirstName = :firstName, LastName = :lastName, Image= :image, Gender = :gender, Dob = :dob, Tel = :tel, Address = :address, Status = :status WHERE id = :id";
     const [result] = await db.query(sql1, {
       ...req.body,
-      image: req?.file?.filename || req.body?.image,
+      image: req?.file?.filename || req.body?.imageOld,
     });
 
     return result;
@@ -44,11 +44,29 @@ const remove = async (req, res) => {
     logs.logError({ name: "employee.remove", message: error, res });
   }
 };
-const getList = async () => {
+const getList = async (req, res) => {
   try {
-    const [result] = await db.query("SELECT * FROM employee order by id desc");
+    const searchName = req.query?.search_name;
+    const page = parseInt(req.query?.page) || 1;
+    const limit = parseInt(req.query?.limit) || 10;
 
-    return result;
+    const offset = (page - 1) * limit;
+
+    let sql = "SELECT * FROM employee ";
+    if (searchName) {
+      sql += `where FirstName like '%${searchName}%' or LastName like '%${searchName}%'`;
+    }
+    sql += " order by id desc";
+
+    sql += ` limit :limit offset :offset`;
+    console.log(offset, limit);
+    const [list] = await db.query(sql, { offset, limit });
+
+    const [totalRecord] = await db.query(
+      "select count(*) as totalRecord from employee"
+    );
+
+    return { list, totalRecord: totalRecord[0]?.totalRecord || 0 };
   } catch (error) {
     console.log(error);
   }

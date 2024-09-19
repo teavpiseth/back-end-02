@@ -1,2 +1,4 @@
 11-09-2024 21:54:40 error: Error: Column 'FirstName' cannot be null
 
+17-09-2024 21:33:08 error: Error: Column 'Image' cannot be null
+

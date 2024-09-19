@@ -1,5 +1,6 @@
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs").promises;
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -26,4 +27,14 @@ const limits = { fileSize: 1024 * 1024 * 5 }; //5 MB
 
 const upload = multer({ storage, fileFilter, limits });
 
-module.exports = { upload };
+const deleteFile = async (filename) => {
+  try {
+    if (filename) {
+      await fs.unlink("uploads" + "/" + `${filename}`);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { upload, deleteFile };
