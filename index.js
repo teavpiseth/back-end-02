@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const adminRoute = require("./routes/adminRoute");
 const pageRoute = require("./routes/pageRoute");
 const employeeRoute = require("./routes/employeeRoute");
+const categoryRoute = require("./routes/categoryRoute");
 
 app.use(
   cors({
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/admin", adminRoute);
 app.use(pageRoute);
 app.use(employeeRoute);
+app.use(categoryRoute);
 
 app.listen(8081, () => {
   console.log("server started port 8081");

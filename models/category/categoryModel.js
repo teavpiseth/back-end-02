@@ -1,10 +1,12 @@
 const Joi = require("joi");
 const db = require("../../database/db");
 const logs = require("../../helper/writeLog");
+
+const table = "category";
+
 const create = async (req, res) => {
   try {
-    const sql =
-      "INSERT INTO employee (FirstName, LastName, Image, Gender, Dob, Tel, Address, Status) VALUES (:firstName, :lastName, :image, :gender, :dob, :tel, :address, :status)";
+    const sql = `INSERT INTO ${table} (Name, Description, Image, Status, ParentsId) VALUES (:name, :description, :image, :status, :parentsId)`;
 
     const [result] = await db.query(sql, {
       ...req.body,
@@ -13,35 +15,34 @@ const create = async (req, res) => {
 
     return result;
   } catch (error) {
-    logs.logError({ name: "employee.create", message: error, res });
+    logs.logError({ name: `${table}.create`, message: error, res });
   }
 };
 
 const update = async (req, res) => {
   try {
-    const sql1 =
-      "UPDATE employee SET FirstName = :firstName, LastName = :lastName, Image= :image, Gender = :gender, Dob = :dob, Tel = :tel, Address = :address, Status = :status WHERE id = :id";
-    const [result] = await db.query(sql1, {
+    const sql = `UPDATE ${table} SET Name = :name, Description = :description, Image= :image, status = :status, ParentsId = :parentsId WHERE id = :id`;
+    const [result] = await db.query(sql, {
       ...req.body,
       image: req?.file?.filename || req.body?.imageOld,
     });
 
     return result;
   } catch (error) {
-    logs.logError({ name: "employee.update", message: error, res });
+    logs.logError({ name: `${table}.update`, message: error, res });
   }
 };
 
 const remove = async (req, res) => {
   try {
-    const sql1 = "DELETE FROM employee WHERE id = :id";
+    const sql1 = `DELETE FROM ${table} WHERE id = :id`;
     const [result] = await db.query(sql1, {
       ...req.body,
     });
 
     return result;
   } catch (error) {
-    logs.logError({ name: "employee.remove", message: error, res });
+    logs.logError({ name: `${table}.remove`, message: error, res });
   }
 };
 const getList = async (req, res) => {
@@ -52,7 +53,7 @@ const getList = async (req, res) => {
 
     const offset = (page - 1) * limit;
 
-    let sql = "SELECT * FROM employee ";
+    let sql = `SELECT * FROM ${table} `;
     if (searchName) {
       sql += `where concat(FirstName,LastName) like '%${searchName.replaceAll(
         " ",
@@ -65,7 +66,7 @@ const getList = async (req, res) => {
     const [list] = await db.query(sql, { offset, limit });
 
     const [totalRecord] = await db.query(
-      "select count(*) as totalRecord from employee"
+      `select count(*) as totalRecord from ${table}`
     );
 
     return { list, totalRecord: totalRecord[0]?.totalRecord || 0 };
