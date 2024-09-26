@@ -2,15 +2,15 @@ const Joi = require("joi");
 const db = require("../../database/db");
 const logs = require("../../helper/writeLog");
 
-const table = "category";
+const table = "product";
 
 const create = async (req, res) => {
   try {
-    const sql = `INSERT INTO ${table} (Name, Description, Image, Status, ParentsId) VALUES (:name, :description, :image, :status, :parentsId)`;
+    const sql = `INSERT INTO ${table} (Name, Description, Qty, Price, DiscountPercent, DiscountAmount, NetPrice, Status, CreateBy, UpdateBy, CategoryId) VALUES (:name, :description, :qty, :price, :discountPercent, :discountAmount, :netPrice, :status, :createBy, :updateBy, :categoryId)`;
+    // Id	CategoryId	Name	Description	Qty	Price	DiscountPercent	DiscountAmount	NetPrice	Image	Status		CreateBy	UpdateBy
 
     const [result] = await db.query(sql, {
       ...req.body,
-      image: req?.file?.filename,
     });
 
     return result;
@@ -21,10 +21,9 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const sql = `UPDATE ${table} SET Name = :name, Description = :description, Image= :image, status = :status, ParentsId = :parentsId WHERE id = :id`;
+    const sql = `UPDATE ${table} SET Name = :name, Description = :description, Qty = :qty, Price = :price, DiscountPercent = :discountPercent, DiscountAmount = :discountAmount, NetPrice = :netPrice, Status = :status, UpdateBy = :updateBy, CategoryId = :categoryId  WHERE id = :id`;
     const [result] = await db.query(sql, {
       ...req.body,
-      image: req?.file?.filename || req.body?.imageOld,
     });
 
     return result;

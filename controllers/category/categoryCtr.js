@@ -8,7 +8,7 @@ const create = async (req, res) => {
     const body = { ...req.body, image: req.file?.filename };
     const validate = categoryValidate.create(body);
     if (validate.result === false) {
-      res.status(400).json({
+      return res.status(400).json({
         data: validate.errors,
         message: "fail",
       });
@@ -35,7 +35,7 @@ const update = async (req, res) => {
     };
     const validate = categoryValidate.update(body);
     if (validate.result === false) {
-      res.status(400).json({
+      return res.status(400).json({
         data: validate.errors,
         message: "fail",
       });
@@ -46,10 +46,12 @@ const update = async (req, res) => {
     }
     const result = await categoryModel.update(req, res);
 
-    res.json({
-      data: result,
-      message: result?.affectedRows > 0 ? "success" : "fail",
-    });
+    if (result) {
+      res.json({
+        data: result,
+        message: result?.affectedRows > 0 ? "success" : "fail",
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -71,7 +73,7 @@ const remove = async (req, res) => {
   try {
     const validate = categoryValidate.remove(req.body);
     if (validate.result === false) {
-      res.status(400).json({
+      return res.status(400).json({
         data: validate.errors,
         message: "fail",
       });
