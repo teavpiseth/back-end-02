@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 27, 2024 at 01:11 AM
+-- Generation Time: Oct 07, 2024 at 05:28 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -127,7 +127,8 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`Id`, `CategoryId`, `Name`, `Description`, `Qty`, `Price`, `DiscountPercent`, `DiscountAmount`, `NetPrice`, `Image`, `Status`, `CreateAt`, `CreateBy`, `UpdateAt`, `UpdateBy`) VALUES
 (5, 20, 'Name01', 'des01', 1, 1000.00, 10.00, 100.00, 900.00, NULL, 1, '2024-09-25 14:56:44', 8, '2024-09-25 21:56:44', 8),
-(8, 23, 'Pcx', 'Pcx corl red', 1, 2000.00, 10.00, 200.00, 1800.00, NULL, 1, '2024-09-26 14:59:18', 8, '2024-09-26 22:12:53', 8);
+(8, 23, 'Pcx', 'Pcx corl red', 1, 2000.00, 10.00, 200.00, 1800.00, '', 1, '2024-09-26 14:59:18', 8, '2024-10-07 21:14:31', 8),
+(9, 23, 'Dream 125', 'Dream 125 Des', 1, 1000.00, 10.00, 100.00, 900.00, NULL, 1, '2024-10-07 14:19:05', 8, '2024-10-07 21:19:05', 8);
 
 -- --------------------------------------------------------
 
@@ -150,6 +151,30 @@ INSERT INTO `Products` (`Id`, `Title`, `Description`, `Image`) VALUES
 (1, 'Note Book', 'Note Book Des', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg/640px-Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg'),
 (2, 'Book 01', 'Book 02 Des', 'https://dictionary.cambridge.org/images/thumb/book_noun_001_01679.jpg?version=6.0.31'),
 (3, 'Red Book', 'Red book description', 'https://media.istockphoto.com/id/173015527/photo/a-single-red-book-on-a-white-surface.jpg?s=612x612&w=0&k=20&c=AeKmdZvg2_bRY2Yct7odWhZXav8CgDtLMc_5_pjSItY=');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_image`
+--
+
+CREATE TABLE `product_image` (
+  `Id` int(11) NOT NULL,
+  `ProductId` int(11) DEFAULT NULL,
+  `Image` varchar(255) NOT NULL,
+  `CreateBy` int(11) DEFAULT 1,
+  `UpdateBy` int(11) NOT NULL,
+  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UpdateAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `product_image`
+--
+
+INSERT INTO `product_image` (`Id`, `ProductId`, `Image`, `CreateBy`, `UpdateBy`, `CreateAt`, `UpdateAt`) VALUES
+(29, 8, 'image-1728314459398-550069004.jpg', 8, 8, '2024-10-07 15:20:59', '2024-10-07 15:20:59'),
+(30, 8, 'image-1728314459399-332627738.jpg', 8, 8, '2024-10-07 15:20:59', '2024-10-07 15:20:59');
 
 --
 -- Indexes for dumped tables
@@ -187,6 +212,13 @@ ALTER TABLE `Products`
   ADD PRIMARY KEY (`Id`);
 
 --
+-- Indexes for table `product_image`
+--
+ALTER TABLE `product_image`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `ProductId` (`ProductId`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -206,13 +238,19 @@ ALTER TABLE `Employee`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `Products`
 --
 ALTER TABLE `Products`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `product_image`
+--
+ALTER TABLE `product_image`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Constraints for dumped tables
@@ -223,6 +261,12 @@ ALTER TABLE `Products`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`CategoryId`) REFERENCES `category` (`Id`);
+
+--
+-- Constraints for table `product_image`
+--
+ALTER TABLE `product_image`
+  ADD CONSTRAINT `product_image_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `product` (`Id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
