@@ -14,4 +14,12 @@ async function add(req, res) {
   res.render(path.join(__dirname, "../../", "views", "addProduct.ejs"));
 }
 
-module.exports = { list, add };
+async function loginForm(req, res) {
+  res.sendFile(path.join(__dirname, "../../", "views", "login.html"));
+}
+
+async function login(req, res) {
+  res.cookie("username", true);
+  res.render(path.join(__dirname, "../../", "views", "addProduct.ejs"));
+}
+module.exports = { list, add, login, loginForm };

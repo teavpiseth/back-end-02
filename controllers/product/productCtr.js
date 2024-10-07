@@ -86,4 +86,16 @@ const remove = async (req, res) => {
   }
 };
 
-module.exports = { getList, create, update, remove };
+const upload = async (req, res) => {
+  try {
+    const result = await productModel.upload(req, res);
+    res.json({
+      data: result,
+      message: result?.[0]?.affectedRows > 0 ? "success" : "fail",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { getList, create, update, remove, upload };

@@ -74,4 +74,24 @@ const getList = async (req, res) => {
   }
 };
 
-module.exports = { getList, create, update, remove };
+const upload = async (req, res) => {
+  try {
+    const sql = `insert into product_image (Image, ProductId, CreateBy, UpdateBy) values ?`;
+    const values = req.files.map((file) => {
+      return [
+        file.filename,
+        req.body.productId,
+        req.body.createBy,
+        req.body.updateBy,
+      ];
+    });
+
+    const result = await db.query(sql, [values]);
+
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { getList, create, update, remove, upload };
