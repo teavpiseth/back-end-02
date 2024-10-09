@@ -78,7 +78,10 @@
   <nav class="navigation">
     <ul>
       <li><a href="/product">product</a></li>
-      <li><a href="/admin/add-product" class="active">add product</a></li>
+      <% if (isLoggedIn) { %>
+        <li><a href="/admin/add-product" class="active">add product</a></li>
+    <% }  %>
+     
       <li><a href="/about">About</a></li>
       <li><a href="/contact">Contact</a></li>
     </ul>

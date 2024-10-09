@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 07, 2024 at 05:28 PM
+-- Generation Time: Oct 09, 2024 at 02:08 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -128,7 +128,8 @@ CREATE TABLE `product` (
 INSERT INTO `product` (`Id`, `CategoryId`, `Name`, `Description`, `Qty`, `Price`, `DiscountPercent`, `DiscountAmount`, `NetPrice`, `Image`, `Status`, `CreateAt`, `CreateBy`, `UpdateAt`, `UpdateBy`) VALUES
 (5, 20, 'Name01', 'des01', 1, 1000.00, 10.00, 100.00, 900.00, NULL, 1, '2024-09-25 14:56:44', 8, '2024-09-25 21:56:44', 8),
 (8, 23, 'Pcx', 'Pcx corl red', 1, 2000.00, 10.00, 200.00, 1800.00, '', 1, '2024-09-26 14:59:18', 8, '2024-10-07 21:14:31', 8),
-(9, 23, 'Dream 125', 'Dream 125 Des', 1, 1000.00, 10.00, 100.00, 900.00, NULL, 1, '2024-10-07 14:19:05', 8, '2024-10-07 21:19:05', 8);
+(9, 23, 'Dream 125', 'Dream 125 Des', 1, 1000.00, 10.00, 100.00, 900.00, NULL, 1, '2024-10-07 14:19:05', 8, '2024-10-07 21:19:05', 8),
+(10, 23, 'Moto01', 'Moto01 description', 2, 2000.00, 1.00, 1.00, 1800.00, NULL, 1, '2024-10-08 14:54:10', 8, '2024-10-08 21:54:10', 8);
 
 -- --------------------------------------------------------
 
@@ -174,7 +175,12 @@ CREATE TABLE `product_image` (
 
 INSERT INTO `product_image` (`Id`, `ProductId`, `Image`, `CreateBy`, `UpdateBy`, `CreateAt`, `UpdateAt`) VALUES
 (29, 8, 'image-1728314459398-550069004.jpg', 8, 8, '2024-10-07 15:20:59', '2024-10-07 15:20:59'),
-(30, 8, 'image-1728314459399-332627738.jpg', 8, 8, '2024-10-07 15:20:59', '2024-10-07 15:20:59');
+(30, 8, 'image-1728314459399-332627738.jpg', 8, 8, '2024-10-07 15:20:59', '2024-10-07 15:20:59'),
+(31, 9, 'image-1728397501099-666903320.png', 8, 8, '2024-10-08 14:25:01', '2024-10-08 14:25:01'),
+(32, 9, 'image-1728397501101-694364297.png', 8, 8, '2024-10-08 14:25:01', '2024-10-08 14:25:01'),
+(33, 5, 'image-1728397531880-520920350.png', 8, 8, '2024-10-08 14:25:31', '2024-10-08 14:25:31'),
+(34, 5, 'image-1728397531882-288852273.png', 8, 8, '2024-10-08 14:25:31', '2024-10-08 14:25:31'),
+(35, 10, 'image-1728399365702-316319857.jpg', 8, 8, '2024-10-08 14:56:05', '2024-10-08 14:56:05');
 
 --
 -- Indexes for dumped tables
@@ -238,7 +244,7 @@ ALTER TABLE `Employee`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `Products`
@@ -250,7 +256,7 @@ ALTER TABLE `Products`
 -- AUTO_INCREMENT for table `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- Constraints for dumped tables

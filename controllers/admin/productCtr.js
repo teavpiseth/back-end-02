@@ -5,13 +5,15 @@ const db = require("../../database/db");
 const list = async (req, res) => {
   const { Title, Description, Image } = req.body;
   const addProduct = await _add(Title, Description, Image);
-  console.log(addProduct);
+
   const productDataList = await _list();
-  res.render("product.ejs", { productDataList });
+  res.render("product.ejs", { productDataList, isLoggedIn: false });
 };
 
 async function add(req, res) {
-  res.render(path.join(__dirname, "../../", "views", "addProduct.ejs"));
+  res.render(path.join(__dirname, "../../", "views", "addProduct.ejs"), {
+    isLoggedIn: false,
+  });
 }
 
 async function loginForm(req, res) {
@@ -19,7 +21,10 @@ async function loginForm(req, res) {
 }
 
 async function login(req, res) {
-  res.cookie("username", true);
-  res.render(path.join(__dirname, "../../", "views", "addProduct.ejs"));
+  const productDataList = await _list();
+  res.render(path.join(__dirname, "../../", "views", "product.ejs"), {
+    productDataList,
+    isLoggedIn: true,
+  });
 }
 module.exports = { list, add, login, loginForm };

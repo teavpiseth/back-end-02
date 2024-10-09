@@ -17,7 +17,6 @@ const create = async (req, res) => {
     const result = await categoryModel.create(req, res);
     // res.json({ data: "hello" });
 
-    console.log(result);
     res.json({
       data: result,
       message: result?.affectedRows > 0 ? "success" : "fail",

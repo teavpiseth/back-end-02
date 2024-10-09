@@ -45,7 +45,10 @@ const remove = async (req, res) => {
   }
 };
 const getList = async (req, res) => {
+  let connection;
+  let totalRecord;
   try {
+    connection = await db.getConnection();
     const searchName = req.query?.search_name;
     const page = parseInt(req.query?.page) || 1;
     const limit = parseInt(req.query?.limit) || 10;
@@ -61,14 +64,30 @@ const getList = async (req, res) => {
     sql += filter;
 
     sql += ` limit :limit offset :offset`;
+    let _list = [];
+    try {
+      const [list] = await connection.query(sql, { offset, limit });
 
-    const [list] = await db.query(sql, { offset, limit });
+      async function getImage(id) {
+        const sqlGetImage = `select * from product_image where ProductId = ${id}`;
+        const [imageList] = await connection.query(sqlGetImage);
+        return imageList?.map((item) => item.Image) || [];
+      }
 
-    const [totalRecord] = await db.query(
-      `select count(*) as totalRecord from ${table} ${filter}`
-    );
+      for (let i = 0; i < list.length; i++) {
+        const item = list[i];
+        _list = [..._list, { ...item, Image: await getImage(item.Id) }];
+      }
+      [totalRecord] = await connection.query(
+        `select count(*) as totalRecord from ${table} ${filter}`
+      );
+    } finally {
+      if (connection) {
+        connection.release();
+      }
+    }
 
-    return { list, totalRecord: totalRecord[0]?.totalRecord || 0 };
+    return { list: _list, totalRecord: totalRecord[0]?.totalRecord || 0 };
   } catch (error) {
     console.log(error);
   }
