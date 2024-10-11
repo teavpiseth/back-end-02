@@ -1,7 +1,8 @@
 const path = require("path");
 const { list } = require("../../models/products/Products");
+const { IsLoggedIn } = require("../../helper/writeLog");
 const about = (req, res, next) => {
-  res.render("about.ejs", { isLoggedIn: false });
+  res.render("about.ejs", { isLoggedIn: req.session?.isLogin });
 };
 
 function contact(req, res, next) {
@@ -15,7 +16,10 @@ const page404 = (req, res, next) => {
 const product = async (req, res, next) => {
   const result = await list();
 
-  res.render("product.ejs", { productDataList: result, isLoggedIn: false });
+  res.render("product.ejs", {
+    productDataList: result,
+    isLoggedIn: req.session?.isLogin,
+  });
 };
 
 module.exports = { about, contact, page404, product };

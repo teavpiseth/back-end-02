@@ -13,4 +13,10 @@ const logError = async ({ name, message, res }) => {
   res.status(500).send("Internal Server Error");
 };
 
-module.exports = { logError };
+let IsLoggedIn = false;
+
+const setLogin = () => {
+  IsLoggedIn = true;
+};
+
+module.exports = { logError, IsLoggedIn, setLogin };

@@ -75,14 +75,24 @@
   </style>
 </head>
 <body>
+  <div>
+  
   <nav class="navigation">
     <ul>
       <li><a href="/product">product</a></li>
-      <% if (isLoggedIn) { %>
-        <li><a href="/admin/add-product" class="active">add product</a></li>
-    <% }  %>
+     
      
       <li><a href="/about">About</a></li>
       <li><a href="/contact">Contact</a></li>
+      <% if (isLoggedIn) { %>
+        <li><a href="/admin/add-product" class="active">add product</a></li>
+    <% }  %>
     </ul>
+    <a style="float: right; position: relative; top: -10px;" href="/admin/login-form">Login</a>
+    <p>|</p>
+    <a style="float: right; position: relative; top: -10px;" href="/admin/logout">Logout</a>
     </nav>
+    
+    
+   
+  </div>

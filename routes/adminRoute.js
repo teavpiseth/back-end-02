@@ -12,6 +12,11 @@ router.post("/product", list);
 router.get("/add-product", add);
 router.get("/login-form", loginForm);
 
-router.get("/login", login);
+router.post("/login", login);
+
+router.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/product");
+});
 
 module.exports = router;

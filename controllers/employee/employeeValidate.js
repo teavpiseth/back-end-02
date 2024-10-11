@@ -28,6 +28,7 @@ function create(data) {
     address: Joi.string().required(),
     status: Joi.number().required(),
     image: Joi.string().required(),
+    password: Joi.string().required(),
   }).unknown();
   const { error } = schema.validate(data, { abortEarly: false });
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 09, 2024 at 02:08 PM
+-- Generation Time: Oct 11, 2024 at 11:39 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -82,7 +82,8 @@ INSERT INTO `Employee` (`Id`, `FirstName`, `LastName`, `Image`, `Gender`, `Dob`,
 (15, 'try', 'sokheng', 'image-1726583863122-872903543.jpg', 'male', '2000-09-08 00:00:00', '012999988', NULL, 'street 200', 1, NULL, NULL, '2024-09-11 14:33:27', '2024-09-17 14:37:43', NULL, NULL),
 (19, 'pi', 'sey', 'image-1726583851936-149832683.jpg', 'male', '2000-09-08 00:00:00', '098989898', NULL, 'street 90', 1, NULL, NULL, '2024-09-12 15:43:00', '2024-09-17 14:37:31', NULL, NULL),
 (21, 'pi', 'sal', 'image-1726500819163-400408331.jpg', 'other', '2024-09-16 00:00:00', '121212', NULL, '13', 12, NULL, NULL, '2024-09-16 14:44:10', '2024-09-17 14:31:56', NULL, NULL),
-(22, 'panha', 'sing', 'image-1726757561694-150940821.jpg', 'male', '2024-09-11 00:00:00', '121', NULL, '13', 1, NULL, NULL, '2024-09-19 14:52:41', '2024-09-20 06:29:44', NULL, NULL);
+(22, 'panha', 'sing', 'image-1726757561694-150940821.jpg', 'male', '2024-09-11 00:00:00', '121', NULL, '13', 1, NULL, NULL, '2024-09-19 14:52:41', '2024-09-20 06:29:44', NULL, NULL),
+(23, 'khin', 'khin', 'image-1728574065566-848771739.png', 'male', '2024-10-10 00:00:00', '987654321', NULL, '13', 1, NULL, '$2b$10$OiYGmslWx/WLJkBLYYy9Gez.G4OxVvi9WRYTdGt2pRusNnBc744sO', '2024-10-10 15:27:45', '2024-10-10 15:27:45', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -182,6 +183,18 @@ INSERT INTO `product_image` (`Id`, `ProductId`, `Image`, `CreateBy`, `UpdateBy`,
 (34, 5, 'image-1728397531882-288852273.png', 8, 8, '2024-10-08 14:25:31', '2024-10-08 14:25:31'),
 (35, 10, 'image-1728399365702-316319857.jpg', 8, 8, '2024-10-08 14:56:05', '2024-10-08 14:56:05');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `session_id` varchar(128) NOT NULL,
+  `expires` int(11) NOT NULL,
+  `data` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -225,6 +238,12 @@ ALTER TABLE `product_image`
   ADD KEY `ProductId` (`ProductId`);
 
 --
+-- Indexes for table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`session_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -238,7 +257,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `Employee`
 --
 ALTER TABLE `Employee`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `product`

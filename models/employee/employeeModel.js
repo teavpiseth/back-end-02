@@ -1,14 +1,16 @@
 const Joi = require("joi");
 const db = require("../../database/db");
 const logs = require("../../helper/writeLog");
+const bcrypt = require("bcrypt");
 const create = async (req, res) => {
   try {
     const sql =
-      "INSERT INTO employee (FirstName, LastName, Image, Gender, Dob, Tel, Address, Status) VALUES (:firstName, :lastName, :image, :gender, :dob, :tel, :address, :status)";
+      "INSERT INTO employee (FirstName, LastName, Image, Gender, Dob, Tel, Address, Status, Password) VALUES (:firstName, :lastName, :image, :gender, :dob, :tel, :address, :status, :password)";
 
     const [result] = await db.query(sql, {
       ...req.body,
       image: req?.file?.filename,
+      password: await bcrypt.hash(req.body.password, 10),
     });
 
     return result;
