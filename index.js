@@ -49,7 +49,7 @@ app.use(
     store: sessionStore,
     resave: true, // Forces session to be saved back to the session store
     saveUninitialized: false, // No empty sessions will be saved
-    cookie: { secure: false, maxAge: 1000 * 60 * 10 }, // 10 minutes (in milliseconds) },
+    cookie: { secure: false, maxAge: 1000 * 60 * 1 }, // 10 minutes (in milliseconds) },
   })
 );
 

@@ -77,4 +77,15 @@ function remove(data) {
   return { result: true, errors: null };
 }
 
-module.exports = { create, update, remove };
+function refreshToken(data) {
+  const schema = Joi.object({
+    refreshToken: Joi.string().required(),
+  }).unknown();
+  const { error } = schema.validate(data, { abortEarly: false });
+  if (error) {
+    return handleErrorDetail(error);
+  }
+  return { result: true, errors: null };
+}
+
+module.exports = { create, update, remove, refreshToken };

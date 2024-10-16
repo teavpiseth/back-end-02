@@ -2,11 +2,18 @@ const Joi = require("joi");
 const db = require("../../database/db");
 const logs = require("../../helper/writeLog");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const create = async (req, res) => {
   try {
     const sql =
       "INSERT INTO employee (FirstName, LastName, Image, Gender, Dob, Tel, Address, Status, Password) VALUES (:firstName, :lastName, :image, :gender, :dob, :tel, :address, :status, :password)";
-
+    const sqlCheck = "SELECT * FROM employee WHERE tel = :tel";
+    const [check] = await db.query(sqlCheck, {
+      tel: req.body.tel,
+    });
+    if (check.length > 0) {
+      return { error: "tel already exists" };
+    }
     const [result] = await db.query(sql, {
       ...req.body,
       image: req?.file?.filename,
@@ -76,4 +83,38 @@ const getList = async (req, res) => {
   }
 };
 
-module.exports = { getList, create, update, remove };
+const login = async (req, res) => {
+  try {
+    // authentication
+    const sql = "SELECT * FROM employee WHERE tel = :tel";
+    const [result] = await db.query(sql, {
+      tel: req.body.tel,
+    });
+    if (result?.[0]?.Status === 0) {
+      return { error: "User is not active" };
+    }
+    if (result.length > 0) {
+      if (await bcrypt.compare(req.body.password, result[0].Password)) {
+        const payload = {
+          user: result[0].FirstName,
+          id: result[0].Id,
+        };
+        var accessToken = jwt.sign(payload, "Sdafji@1213", {
+          expiresIn: "1m",
+        });
+        var refreshToken = jwt.sign(payload, "Sdafji@1213", {
+          expiresIn: "1d",
+        });
+        return { result: { ...result[0], accessToken, refreshToken } };
+      } else {
+        return { error: "Password is wrong" };
+      }
+    } else {
+      return { error: "Tel is wrong" };
+    }
+  } catch (error) {
+    logs.logError({ name: "employee.login", message: error, res });
+  }
+};
+
+module.exports = { getList, create, update, remove, login };
