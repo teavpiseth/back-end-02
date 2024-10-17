@@ -99,6 +99,7 @@ const login = async (req, res) => {
           user: result[0].FirstName,
           id: result[0].Id,
         };
+        // create token
         var accessToken = jwt.sign(payload, "Sdafji@1213", {
           expiresIn: "1m",
         });

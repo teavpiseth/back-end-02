@@ -9,6 +9,7 @@ const categoryRoute = require("./routes/categoryRoute");
 const productRoute = require("./routes/productRoute");
 const session = require("express-session");
 const db = require("./database/db");
+const { verifyToken } = require("./helper/auth");
 const MySQLStore = require("express-mysql-session")(session);
 
 app.use(
@@ -70,6 +71,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/admin", adminRoute);
 app.use(pageRoute);
+
+app.use("/api", verifyToken);
 app.use(employeeRoute);
 app.use(categoryRoute);
 app.use(productRoute);

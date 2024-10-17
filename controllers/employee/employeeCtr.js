@@ -107,7 +107,7 @@ const login = async (req, res) => {
       };
     }
     if (result?.error) {
-      return res.status(401).send({
+      return res.send({
         data: null,
         message: result?.error,
       });
@@ -139,19 +139,27 @@ const refreshToken = async (req, res) => {
       const [result] = await db.query(sql, {
         id: decoded.id,
       });
-
+      console.log(result, decoded);
       if (result?.[0]?.Status === 0 || result?.[0]?.Status === "0") {
         return res.status(401).send({
           data: null,
           message: "unauthorized",
         });
       }
-      const accessToken = jwt.sign({ user: decoded.user }, "Sdafji@1213", {
-        expiresIn: "1m",
-      });
-      const refreshToken = jwt.sign({ user: decoded.user }, "Sdafji@1213", {
-        expiresIn: "1d",
-      });
+      const accessToken = jwt.sign(
+        { user: decoded.user, id: decoded.id },
+        "Sdafji@1213",
+        {
+          expiresIn: "1m",
+        }
+      );
+      const refreshToken = jwt.sign(
+        { user: decoded.user, id: decoded.id },
+        "Sdafji@1213",
+        {
+          expiresIn: "1d",
+        }
+      );
       return res.json({
         data: { accessToken, refreshToken },
         message: "success",
