@@ -7,6 +7,7 @@ const pageRoute = require("./routes/pageRoute");
 const employeeRoute = require("./routes/employeeRoute");
 const categoryRoute = require("./routes/categoryRoute");
 const productRoute = require("./routes/productRoute");
+const accessKeyRoute = require("./routes/accessKeyRoute");
 const session = require("express-session");
 const db = require("./database/db");
 const { verifyToken } = require("./helper/auth");
@@ -76,6 +77,7 @@ app.use("/api", verifyToken);
 app.use(employeeRoute);
 app.use(categoryRoute);
 app.use(productRoute);
+app.use(accessKeyRoute);
 
 app.listen(8081, () => {
   console.log("server started port 8081");

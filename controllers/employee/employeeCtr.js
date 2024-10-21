@@ -139,7 +139,7 @@ const refreshToken = async (req, res) => {
       const [result] = await db.query(sql, {
         id: decoded.id,
       });
-      console.log(result, decoded);
+      // console.log(result, decoded);
       if (result?.[0]?.Status === 0 || result?.[0]?.Status === "0") {
         return res.status(401).send({
           data: null,

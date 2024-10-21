@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Oct 11, 2024 at 11:39 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Host: 127.0.0.1
+-- Generation Time: Oct 21, 2024 at 11:56 AM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -24,19 +25,42 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `access_key`
+--
+
+CREATE TABLE `access_key` (
+  `Id` int(255) NOT NULL,
+  `Name` varchar(255) NOT NULL,
+  `Code` varchar(255) NOT NULL,
+  `ParentId` int(255) DEFAULT NULL,
+  `Status` int(255) NOT NULL,
+  `CreateAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdateAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `access_key`
+--
+
+INSERT INTO `access_key` (`Id`, `Name`, `Code`, `ParentId`, `Status`, `CreateAt`, `UpdateAt`) VALUES
+(10, 'Employee', 'Employee', NULL, 1, '2024-10-21 08:32:08', '2024-10-21 08:32:08');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `category`
 --
 
 CREATE TABLE `category` (
   `Id` int(11) NOT NULL,
   `Name` varchar(120) NOT NULL,
-  `Description` text DEFAULT NULL,
+  `Description` text,
   `ParentsId` int(8) DEFAULT NULL,
-  `Status` tinyint(1) NOT NULL DEFAULT 0,
+  `Status` tinyint(1) NOT NULL DEFAULT '0',
   `Image` varchar(255) NOT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `UpdateAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `CreateAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdateAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `category`
@@ -51,10 +75,10 @@ INSERT INTO `category` (`Id`, `Name`, `Description`, `ParentsId`, `Status`, `Ima
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Employee`
+-- Table structure for table `employee`
 --
 
-CREATE TABLE `Employee` (
+CREATE TABLE `employee` (
   `Id` int(11) NOT NULL,
   `FirstName` varchar(255) NOT NULL,
   `LastName` varchar(255) NOT NULL,
@@ -67,17 +91,17 @@ CREATE TABLE `Employee` (
   `Status` int(11) NOT NULL,
   `Salary` varchar(255) DEFAULT NULL,
   `Password` varchar(255) DEFAULT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `UpdateAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `CreateAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdateAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `Employee`
+-- Dumping data for table `employee`
 --
 
-INSERT INTO `Employee` (`Id`, `FirstName`, `LastName`, `Image`, `Gender`, `Dob`, `Tel`, `Email`, `Address`, `Status`, `Salary`, `Password`, `CreateAt`, `UpdateAt`, `CreateBy`, `UpdateBy`) VALUES
+INSERT INTO `employee` (`Id`, `FirstName`, `LastName`, `Image`, `Gender`, `Dob`, `Tel`, `Email`, `Address`, `Status`, `Salary`, `Password`, `CreateAt`, `UpdateAt`, `CreateBy`, `UpdateBy`) VALUES
 (8, 'sokhin', 'sing', 'image-1726583888724-643339916.jpg', 'male', '2000-09-08 00:00:00', '0122112', NULL, 'street 200', 1, NULL, NULL, '2024-09-11 14:16:14', '2024-09-17 14:38:08', NULL, NULL),
 (15, 'try', 'sokheng', 'image-1726583863122-872903543.jpg', 'male', '2000-09-08 00:00:00', '012999988', NULL, 'street 200', 1, NULL, NULL, '2024-09-11 14:33:27', '2024-09-17 14:37:43', NULL, NULL),
 (19, 'pi', 'sey', 'image-1726583851936-149832683.jpg', 'male', '2000-09-08 00:00:00', '098989898', NULL, 'street 90', 1, NULL, NULL, '2024-09-12 15:43:00', '2024-09-17 14:37:31', NULL, NULL),
@@ -88,15 +112,15 @@ INSERT INTO `Employee` (`Id`, `FirstName`, `LastName`, `Image`, `Gender`, `Dob`,
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Persons`
+-- Table structure for table `persons`
 --
 
-CREATE TABLE `Persons` (
+CREATE TABLE `persons` (
   `ID` int(11) NOT NULL,
   `LastName` varchar(255) NOT NULL,
   `FirstName` varchar(255) DEFAULT NULL,
   `Age` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -108,48 +132,48 @@ CREATE TABLE `product` (
   `Id` int(11) NOT NULL,
   `CategoryId` int(11) DEFAULT NULL,
   `Name` varchar(255) NOT NULL,
-  `Description` text DEFAULT NULL,
-  `Qty` int(6) DEFAULT 0,
-  `Price` decimal(12,2) DEFAULT 0.00,
-  `DiscountPercent` decimal(12,2) DEFAULT 0.00,
+  `Description` text,
+  `Qty` int(6) DEFAULT '0',
+  `Price` decimal(12,2) DEFAULT '0.00',
+  `DiscountPercent` decimal(12,2) DEFAULT '0.00',
   `DiscountAmount` decimal(12,2) NOT NULL,
   `NetPrice` decimal(12,2) NOT NULL,
   `Image` varchar(255) DEFAULT NULL,
-  `Status` tinyint(1) DEFAULT 1,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Status` tinyint(1) DEFAULT '1',
+  `CreateAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `CreateBy` int(11) DEFAULT NULL,
-  `UpdateAt` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `UpdateAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `UpdateBy` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `product`
 --
 
 INSERT INTO `product` (`Id`, `CategoryId`, `Name`, `Description`, `Qty`, `Price`, `DiscountPercent`, `DiscountAmount`, `NetPrice`, `Image`, `Status`, `CreateAt`, `CreateBy`, `UpdateAt`, `UpdateBy`) VALUES
-(5, 20, 'Name01', 'des01', 1, 1000.00, 10.00, 100.00, 900.00, NULL, 1, '2024-09-25 14:56:44', 8, '2024-09-25 21:56:44', 8),
-(8, 23, 'Pcx', 'Pcx corl red', 1, 2000.00, 10.00, 200.00, 1800.00, '', 1, '2024-09-26 14:59:18', 8, '2024-10-07 21:14:31', 8),
-(9, 23, 'Dream 125', 'Dream 125 Des', 1, 1000.00, 10.00, 100.00, 900.00, NULL, 1, '2024-10-07 14:19:05', 8, '2024-10-07 21:19:05', 8),
-(10, 23, 'Moto01', 'Moto01 description', 2, 2000.00, 1.00, 1.00, 1800.00, NULL, 1, '2024-10-08 14:54:10', 8, '2024-10-08 21:54:10', 8);
+(5, 20, 'Name01', 'des01', 1, '1000.00', '10.00', '100.00', '900.00', NULL, 1, '2024-09-25 14:56:44', 8, '2024-09-25 21:56:44', 8),
+(8, 23, 'Pcx', 'Pcx corl red', 1, '2000.00', '10.00', '200.00', '1800.00', '', 1, '2024-09-26 14:59:18', 8, '2024-10-07 21:14:31', 8),
+(9, 23, 'Dream 125', 'Dream 125 Des', 1, '1000.00', '10.00', '100.00', '900.00', NULL, 1, '2024-10-07 14:19:05', 8, '2024-10-07 21:19:05', 8),
+(10, 23, 'Moto01', 'Moto01 description', 2, '2000.00', '1.00', '1.00', '1800.00', NULL, 1, '2024-10-08 14:54:10', 8, '2024-10-08 21:54:10', 8);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Products`
+-- Table structure for table `products`
 --
 
-CREATE TABLE `Products` (
+CREATE TABLE `products` (
   `Id` int(11) NOT NULL,
   `Title` varchar(255) NOT NULL,
   `Description` varchar(500) NOT NULL,
   `Image` varchar(500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `Products`
+-- Dumping data for table `products`
 --
 
-INSERT INTO `Products` (`Id`, `Title`, `Description`, `Image`) VALUES
+INSERT INTO `products` (`Id`, `Title`, `Description`, `Image`) VALUES
 (1, 'Note Book', 'Note Book Des', 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg/640px-Gutenberg_Bible%2C_Lenox_Copy%2C_New_York_Public_Library%2C_2009._Pic_01.jpg'),
 (2, 'Book 01', 'Book 02 Des', 'https://dictionary.cambridge.org/images/thumb/book_noun_001_01679.jpg?version=6.0.31'),
 (3, 'Red Book', 'Red book description', 'https://media.istockphoto.com/id/173015527/photo/a-single-red-book-on-a-white-surface.jpg?s=612x612&w=0&k=20&c=AeKmdZvg2_bRY2Yct7odWhZXav8CgDtLMc_5_pjSItY=');
@@ -164,11 +188,11 @@ CREATE TABLE `product_image` (
   `Id` int(11) NOT NULL,
   `ProductId` int(11) DEFAULT NULL,
   `Image` varchar(255) NOT NULL,
-  `CreateBy` int(11) DEFAULT 1,
+  `CreateBy` int(11) DEFAULT '1',
   `UpdateBy` int(11) NOT NULL,
-  `CreateAt` timestamp NOT NULL DEFAULT current_timestamp(),
-  `UpdateAt` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `CreateAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdateAt` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `product_image`
@@ -193,11 +217,18 @@ CREATE TABLE `sessions` (
   `session_id` varchar(128) NOT NULL,
   `expires` int(11) NOT NULL,
   `data` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `access_key`
+--
+ALTER TABLE `access_key`
+  ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `KeyName` (`Code`);
 
 --
 -- Indexes for table `category`
@@ -206,15 +237,15 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `Employee`
+-- Indexes for table `employee`
 --
-ALTER TABLE `Employee`
+ALTER TABLE `employee`
   ADD PRIMARY KEY (`Id`);
 
 --
--- Indexes for table `Persons`
+-- Indexes for table `persons`
 --
-ALTER TABLE `Persons`
+ALTER TABLE `persons`
   ADD PRIMARY KEY (`ID`);
 
 --
@@ -225,9 +256,9 @@ ALTER TABLE `product`
   ADD KEY `CategoryId` (`CategoryId`);
 
 --
--- Indexes for table `Products`
+-- Indexes for table `products`
 --
-ALTER TABLE `Products`
+ALTER TABLE `products`
   ADD PRIMARY KEY (`Id`);
 
 --
@@ -248,15 +279,21 @@ ALTER TABLE `sessions`
 --
 
 --
+-- AUTO_INCREMENT for table `access_key`
+--
+ALTER TABLE `access_key`
+  MODIFY `Id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
--- AUTO_INCREMENT for table `Employee`
+-- AUTO_INCREMENT for table `employee`
 --
-ALTER TABLE `Employee`
+ALTER TABLE `employee`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
@@ -266,9 +303,9 @@ ALTER TABLE `product`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `Products`
+-- AUTO_INCREMENT for table `products`
 --
-ALTER TABLE `Products`
+ALTER TABLE `products`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
