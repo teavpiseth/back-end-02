@@ -2,7 +2,7 @@ const Joi = require("joi");
 const db = require("../../database/db");
 const logs = require("../../helper/writeLog");
 
-const table = "access_key";
+const table = "role";
 
 const create = async (req, res) => {
   try {
@@ -13,7 +13,7 @@ const create = async (req, res) => {
     if (resultDuplicate.length > 0) {
       return { error: "Code already exists" };
     }
-    const sql = `INSERT INTO ${table} (Name, Code, ParentId, Status) VALUES (:name, :code, :parentId, :status)`;
+    const sql = `INSERT INTO ${table} (Name, Code, Status) VALUES (:name, :code, :status)`;
 
     const [result] = await db.query(sql, {
       ...req.body,
@@ -28,7 +28,7 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const sql = `UPDATE ${table} SET Name = :name, status = :status , code = :code, ParentId = :parentId WHERE id = :id`;
+    const sql = `UPDATE ${table} SET Name = :name, status = :status , code = :code WHERE id = :id`;
     const [result] = await db.query(sql, {
       ...req.body,
     });
@@ -54,7 +54,6 @@ const remove = async (req, res) => {
 const getList = async (req, res) => {
   try {
     const searchName = req.query?.search_name;
-    const roleId = req.query?.roleId;
     const page = parseInt(req.query?.page) || 1;
     const limit = parseInt(req.query?.limit) || 10;
 
@@ -76,11 +75,7 @@ const getList = async (req, res) => {
       `select count(*) as totalRecord from ${table} ${filter}`
     );
 
-    const sqlGetRole = `select * from access_role where RoleId = :roleId`;
-    console.log({ roleId });
-    const [roleList] = await db.query(sqlGetRole, { roleId });
-
-    return { list, roleList, totalRecord: totalRecord[0]?.totalRecord || 0 };
+    return { list, totalRecord: totalRecord[0]?.totalRecord || 0 };
   } catch (error) {
     console.log(error);
   }

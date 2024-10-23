@@ -1,12 +1,12 @@
 const db = require("../../database/db");
 const { deleteFile } = require("../../helper/uploadFile");
-const accessKeyModel = require("../../models/accessKey/accessKeyModel");
-const accessKeyValidate = require("./accessKeyValidate");
+const accessRoleModel = require("../../models/accessRole/accessRoleModel");
+const accessRoleValidate = require("./accessRoleValidate");
 
 const create = async (req, res) => {
   try {
     const body = { ...req.body };
-    const validate = accessKeyValidate.create(body);
+    const validate = accessRoleValidate.create(body);
     if (validate.result === false) {
       return res.status(400).json({
         data: validate.errors,
@@ -14,7 +14,7 @@ const create = async (req, res) => {
       });
     }
 
-    const result = await accessKeyModel.create(req, res);
+    const result = await accessRoleModel.create(req, res);
     // res.json({ data: "hello" });
     if (result) {
       res.status(result?.error ? 400 : 200).json({
@@ -33,7 +33,7 @@ const update = async (req, res) => {
     const body = {
       ...req.body,
     };
-    const validate = accessKeyValidate.update(body);
+    const validate = accessRoleValidate.update(body);
     if (validate.result === false) {
       return res.status(400).json({
         data: validate.errors,
@@ -41,7 +41,7 @@ const update = async (req, res) => {
       });
     }
 
-    const result = await accessKeyModel.update(req, res);
+    const result = await accessRoleModel.update(req, res);
 
     if (result) {
       res.status(result?.error ? 400 : 200).json({
@@ -55,10 +55,9 @@ const update = async (req, res) => {
 };
 const getList = async (req, res) => {
   try {
-    const result = await accessKeyModel.getList(req, res);
+    const result = await accessRoleModel.getList(req, res);
     res.json({
       data: result.list,
-      roleList: result?.roleList,
       message: "success",
       totalRecord: result.totalRecord,
     });
@@ -69,7 +68,7 @@ const getList = async (req, res) => {
 
 const remove = async (req, res) => {
   try {
-    const validate = accessKeyValidate.remove(req.body);
+    const validate = accessRoleValidate.remove(req.body);
     if (validate.result === false) {
       return res.status(400).json({
         data: validate.errors,
@@ -77,7 +76,7 @@ const remove = async (req, res) => {
       });
     }
 
-    const result = await accessKeyModel.remove(req, res);
+    const result = await accessRoleModel.remove(req, res);
     if (result) {
       res.status(result?.error ? 400 : 200).json({
         data: result,
