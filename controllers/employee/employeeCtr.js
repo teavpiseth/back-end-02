@@ -160,8 +160,15 @@ const refreshToken = async (req, res) => {
           expiresIn: "1d",
         }
       );
+      const sqlGetRole = `select * from access_role join access_key on access_key.Id = access_role.AccessKeyId where RoleId = :roleId`;
+      const [_role] = await db.query(sqlGetRole, {
+        roleId: result[0].RoleId,
+      });
+      const role = _role?.map((item) => {
+        return item.Code;
+      });
       return res.json({
-        data: { accessToken, refreshToken },
+        data: { accessToken, refreshToken, role },
         message: "success",
       });
     }
@@ -171,7 +178,9 @@ const refreshToken = async (req, res) => {
       message: "unauthorized",
     });
   } catch (error) {
-    console.log(error);
+    return res.status(401).json({
+      message: "Unauthorized",
+    });
   }
 };
 

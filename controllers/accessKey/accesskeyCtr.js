@@ -59,6 +59,7 @@ const getList = async (req, res) => {
     res.json({
       data: result.list,
       roleList: result?.roleList,
+      listAllForSelectParent: result?.listAllForSelectParent,
       message: "success",
       totalRecord: result.totalRecord,
     });

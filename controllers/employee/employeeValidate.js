@@ -28,6 +28,7 @@ function create(data) {
     address: Joi.string().required(),
     status: Joi.number().required(),
     image: Joi.string().required(),
+    roleId: Joi.number().required(),
     password: Joi.string().required(),
   }).unknown();
   const { error } = schema.validate(data, { abortEarly: false });
@@ -56,6 +57,7 @@ function update(data) {
       }),
     address: Joi.string().required(),
     status: Joi.number().required(),
+    roleId: Joi.number().required(),
   }).unknown();
   const { error } = schema.validate(data, { abortEarly: false });
 

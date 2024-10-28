@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const create = async (req, res) => {
   try {
     const sql =
-      "INSERT INTO employee (FirstName, LastName, Image, Gender, Dob, Tel, Address, Status, Password) VALUES (:firstName, :lastName, :image, :gender, :dob, :tel, :address, :status, :password)";
+      "INSERT INTO employee (FirstName, LastName, Image, Gender, Dob, Tel, Address, Status, Password, RoleId) VALUES (:firstName, :lastName, :image, :gender, :dob, :tel, :address, :status, :password, :roleId)";
     const sqlCheck = "SELECT * FROM employee WHERE tel = :tel";
     const [check] = await db.query(sqlCheck, {
       tel: req.body.tel,
@@ -29,7 +29,7 @@ const create = async (req, res) => {
 const update = async (req, res) => {
   try {
     const sql1 =
-      "UPDATE employee SET FirstName = :firstName, LastName = :lastName, Image= :image, Gender = :gender, Dob = :dob, Tel = :tel, Address = :address, Status = :status WHERE id = :id";
+      "UPDATE employee SET FirstName = :firstName, LastName = :lastName, Image= :image, Gender = :gender, Dob = :dob, Tel = :tel, Address = :address, Status = :status, RoleId = :roleId WHERE id = :id";
     const [result] = await db.query(sql1, {
       ...req.body,
       image: req?.file?.filename || req.body?.imageOld,
@@ -106,7 +106,15 @@ const login = async (req, res) => {
         var refreshToken = jwt.sign(payload, "Sdafji@1213", {
           expiresIn: "1d",
         });
-        return { result: { ...result[0], accessToken, refreshToken } };
+
+        const sqlGetRole = `select * from access_role join access_key on access_key.Id = access_role.AccessKeyId where RoleId = :roleId`;
+        const [_role] = await db.query(sqlGetRole, {
+          roleId: result[0].RoleId,
+        });
+        const role = _role?.map((item) => {
+          return item.Code;
+        });
+        return { result: { ...result[0], accessToken, refreshToken, role } };
       } else {
         return { error: "Password is wrong" };
       }

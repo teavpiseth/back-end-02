@@ -53,10 +53,10 @@ const remove = async (req, res) => {
 };
 const getList = async (req, res) => {
   try {
-    const searchName = req.query?.search_name;
+    const searchName = req.query?.search;
     const roleId = req.query?.roleId;
     const page = parseInt(req.query?.page) || 1;
-    const limit = parseInt(req.query?.limit) || 10;
+    const limit = parseInt(req.query?.limit) || 100;
 
     const offset = (page - 1) * limit;
     let filter = "";
@@ -76,11 +76,21 @@ const getList = async (req, res) => {
       `select count(*) as totalRecord from ${table} ${filter}`
     );
 
-    const sqlGetRole = `select * from access_role where RoleId = :roleId`;
-    console.log({ roleId });
-    const [roleList] = await db.query(sqlGetRole, { roleId });
+    let roleList = [];
+    if (roleId) {
+      const sqlGetRole = `select * from access_role where RoleId = :roleId`;
+      const [_roleList] = await db.query(sqlGetRole, { roleId });
+      roleList = _roleList;
+    }
 
-    return { list, roleList, totalRecord: totalRecord[0]?.totalRecord || 0 };
+    const [listAllForSelectParent] = await db.query(`select * from ${table}`);
+
+    return {
+      list,
+      roleList,
+      listAllForSelectParent,
+      totalRecord: totalRecord[0]?.totalRecord || 0,
+    };
   } catch (error) {
     console.log(error);
   }
